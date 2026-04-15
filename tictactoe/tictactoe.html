@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe — Neon Edition</title>
+    <meta name="description" content="Play a beautifully designed Tic Tac Toe game with neon visuals, smooth animations, and an AI opponent.">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="tictactoe.css">
+</head>
+<body>
+    <div class="bg-effects">
+        <div class="bg-orb bg-orb-1"></div>
+        <div class="bg-orb bg-orb-2"></div>
+        <div class="bg-orb bg-orb-3"></div>
+        <div class="grid-lines"></div>
+    </div>
+
+    <div class="game-container" id="game-container">
+        <!-- Header -->
+        <header class="game-header">
+            <h1 class="game-title">
+                <span class="title-tic">TIC</span>
+                <span class="title-tac">TAC</span>
+                <span class="title-toe">TOE</span>
+            </h1>
+            <p class="game-subtitle">NEON EDITION</p>
+        </header>
+
+        <!-- Mode Selection Screen -->
+        <div class="screen mode-screen active" id="mode-screen">
+            <h2 class="screen-title">Choose Your Mode</h2>
+            <div class="mode-buttons">
+                <button class="mode-btn" id="btn-pvp" onclick="selectMode('pvp')">
+                    <div class="mode-icon">👥</div>
+                    <div class="mode-label">Player vs Player</div>
+                    <div class="mode-desc">Challenge a friend locally</div>
+                </button>
+                <button class="mode-btn" id="btn-ai" onclick="selectMode('ai')">
+                    <div class="mode-icon">🤖</div>
+                    <div class="mode-label">Player vs AI</div>
+                    <div class="mode-desc">Battle the machine</div>
+                </button>
+            </div>
+            <div class="difficulty-selector hidden" id="difficulty-selector">
+                <h3 class="diff-title">Select Difficulty</h3>
+                <div class="diff-buttons">
+                    <button class="diff-btn" id="btn-easy" onclick="selectDifficulty('easy')">
+                        <span class="diff-emoji">😊</span> Easy
+                    </button>
+                    <button class="diff-btn" id="btn-medium" onclick="selectDifficulty('medium')">
+                        <span class="diff-emoji">😏</span> Medium
+                    </button>
+                    <button class="diff-btn" id="btn-hard" onclick="selectDifficulty('hard')">
+                        <span class="diff-emoji">😈</span> Hard
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div class="screen game-screen" id="game-screen">
+            <!-- Scoreboard -->
+            <div class="scoreboard" id="scoreboard">
+                <div class="score-card player-x" id="score-x-card">
+                    <div class="score-symbol x-symbol">✕</div>
+                    <div class="score-info">
+                        <div class="score-name" id="player-x-name">Player X</div>
+                        <div class="score-value" id="score-x">0</div>
+                    </div>
+                </div>
+                <div class="score-card score-draw">
+                    <div class="score-symbol draw-symbol">—</div>
+                    <div class="score-info">
+                        <div class="score-name">Draws</div>
+                        <div class="score-value" id="score-draw">0</div>
+                    </div>
+                </div>
+                <div class="score-card player-o" id="score-o-card">
+                    <div class="score-symbol o-symbol">○</div>
+                    <div class="score-info">
+                        <div class="score-name" id="player-o-name">Player O</div>
+                        <div class="score-value" id="score-o">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Turn Indicator -->
+            <div class="turn-indicator" id="turn-indicator">
+                <span class="turn-symbol" id="turn-symbol">✕</span>
+                <span class="turn-text" id="turn-text">'s Turn</span>
+            </div>
+
+            <!-- Game Board -->
+            <div class="board-wrapper">
+                <div class="board" id="board">
+                    <div class="cell" data-index="0" onclick="handleCellClick(0)" id="cell-0"></div>
+                    <div class="cell" data-index="1" onclick="handleCellClick(1)" id="cell-1"></div>
+                    <div class="cell" data-index="2" onclick="handleCellClick(2)" id="cell-2"></div>
+                    <div class="cell" data-index="3" onclick="handleCellClick(3)" id="cell-3"></div>
+                    <div class="cell" data-index="4" onclick="handleCellClick(4)" id="cell-4"></div>
+                    <div class="cell" data-index="5" onclick="handleCellClick(5)" id="cell-5"></div>
+                    <div class="cell" data-index="6" onclick="handleCellClick(6)" id="cell-6"></div>
+                    <div class="cell" data-index="7" onclick="handleCellClick(7)" id="cell-7"></div>
+                    <div class="cell" data-index="8" onclick="handleCellClick(8)" id="cell-8"></div>
+                </div>
+                <svg class="win-line-svg" id="win-line-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <line id="win-line" x1="0" y1="0" x2="0" y2="0" />
+                </svg>
+            </div>
+
+            <!-- Controls -->
+            <div class="game-controls">
+                <button class="control-btn restart-btn" id="restart-btn" onclick="restartGame()">
+                    <span class="btn-icon">↻</span> New Round
+                </button>
+                <button class="control-btn menu-btn" id="menu-btn" onclick="goToMenu()">
+                    <span class="btn-icon">☰</span> Menu
+                </button>
+            </div>
+        </div>
+
+        <!-- Result Overlay -->
+        <div class="result-overlay hidden" id="result-overlay">
+            <div class="result-card" id="result-card">
+                <div class="result-emoji" id="result-emoji">🎉</div>
+                <h2 class="result-title" id="result-title">Player X Wins!</h2>
+                <p class="result-subtitle" id="result-subtitle">Impressive move!</p>
+                <div class="result-buttons">
+                    <button class="result-btn primary-btn" id="play-again-btn" onclick="restartGame()">Play Again</button>
+                    <button class="result-btn secondary-btn" id="back-menu-btn" onclick="goToMenu()">Menu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="tictactoe.js"></script>
+</body>
+</html>

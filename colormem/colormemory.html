@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Memory — Test Your Brain</title>
+    <meta name="description" content="A beautiful Simon Says style color memory game to test and improve your memory skills.">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="colormemory.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-canvas">
+        <div class="bg-blob bg-blob-1"></div>
+        <div class="bg-blob bg-blob-2"></div>
+        <div class="bg-blob bg-blob-3"></div>
+        <div class="bg-blob bg-blob-4"></div>
+        <div class="particle-field" id="particle-field"></div>
+    </div>
+
+    <div class="app" id="app">
+
+        <!-- ===== START SCREEN ===== -->
+        <div class="screen start-screen active" id="start-screen">
+            <div class="logo">
+                <div class="logo-circles">
+                    <span class="logo-dot" style="--c: #FF6B6B;"></span>
+                    <span class="logo-dot" style="--c: #4ECDC4;"></span>
+                    <span class="logo-dot" style="--c: #FFE66D;"></span>
+                    <span class="logo-dot" style="--c: #A78BFA;"></span>
+                </div>
+                <h1 class="logo-title">Color Memory</h1>
+                <p class="logo-sub">How sharp is your memory?</p>
+            </div>
+
+            <div class="mode-picker">
+                <h2 class="picker-label">Choose Speed</h2>
+                <div class="speed-options">
+                    <button class="speed-btn selected" data-speed="slow" id="speed-slow" onclick="setSpeed('slow')">
+                        <span class="speed-icon">🐢</span>
+                        <span class="speed-name">Relaxed</span>
+                    </button>
+                    <button class="speed-btn" data-speed="normal" id="speed-normal" onclick="setSpeed('normal')">
+                        <span class="speed-icon">🚀</span>
+                        <span class="speed-name">Normal</span>
+                    </button>
+                    <button class="speed-btn" data-speed="fast" id="speed-fast" onclick="setSpeed('fast')">
+                        <span class="speed-icon">⚡</span>
+                        <span class="speed-name">Blazing</span>
+                    </button>
+                </div>
+            </div>
+
+            <button class="start-btn" id="start-btn" onclick="startGame()">
+                <span class="start-btn-text">Start Game</span>
+                <span class="start-btn-glow"></span>
+            </button>
+
+            <div class="best-score-display" id="best-score-start">
+                <span class="best-label">Best Score</span>
+                <span class="best-value" id="best-score-value">0</span>
+            </div>
+        </div>
+
+        <!-- ===== GAME SCREEN ===== -->
+        <div class="screen game-screen" id="game-screen">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="stat-pill level-pill">
+                    <span class="stat-label">Level</span>
+                    <span class="stat-value" id="level-display">1</span>
+                </div>
+                <div class="stat-pill score-pill">
+                    <span class="stat-label">Score</span>
+                    <span class="stat-value" id="score-display">0</span>
+                </div>
+                <div class="stat-pill best-pill">
+                    <span class="stat-label">Best</span>
+                    <span class="stat-value" id="best-display">0</span>
+                </div>
+            </div>
+
+            <!-- Status Message -->
+            <div class="status-bar" id="status-bar">
+                <span class="status-text" id="status-text">Watch closely...</span>
+                <div class="status-progress" id="status-progress"></div>
+            </div>
+
+            <!-- Color Pads -->
+            <div class="pads-container" id="pads-container">
+                <div class="pad" id="pad-0" data-index="0" onclick="padClick(0)">
+                    <div class="pad-glow"></div>
+                    <div class="pad-inner"></div>
+                </div>
+                <div class="pad" id="pad-1" data-index="1" onclick="padClick(1)">
+                    <div class="pad-glow"></div>
+                    <div class="pad-inner"></div>
+                </div>
+                <div class="pad" id="pad-2" data-index="2" onclick="padClick(2)">
+                    <div class="pad-glow"></div>
+                    <div class="pad-inner"></div>
+                </div>
+                <div class="pad" id="pad-3" data-index="3" onclick="padClick(3)">
+                    <div class="pad-glow"></div>
+                    <div class="pad-inner"></div>
+                </div>
+            </div>
+
+            <!-- Center Display -->
+            <div class="center-display" id="center-display">
+                <div class="sequence-dots" id="sequence-dots"></div>
+            </div>
+
+            <!-- Game Controls -->
+            <div class="game-bottom-bar">
+                <button class="icon-btn" id="quit-btn" onclick="quitGame()" title="Quit">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- ===== GAME OVER SCREEN ===== -->
+        <div class="screen gameover-screen" id="gameover-screen">
+            <div class="gameover-card" id="gameover-card">
+                <div class="gameover-emoji" id="gameover-emoji">🧠</div>
+                <h2 class="gameover-title" id="gameover-title">Game Over</h2>
+                <div class="gameover-stats">
+                    <div class="go-stat">
+                        <span class="go-stat-label">Score</span>
+                        <span class="go-stat-value" id="final-score">0</span>
+                    </div>
+                    <div class="go-stat-divider"></div>
+                    <div class="go-stat">
+                        <span class="go-stat-label">Level</span>
+                        <span class="go-stat-value" id="final-level">1</span>
+                    </div>
+                    <div class="go-stat-divider"></div>
+                    <div class="go-stat">
+                        <span class="go-stat-label">Best</span>
+                        <span class="go-stat-value" id="final-best">0</span>
+                    </div>
+                </div>
+                <div class="go-message" id="go-message">Nice try! Keep practicing.</div>
+                <div class="newrecord-badge hidden" id="newrecord-badge">🏆 New Record!</div>
+                <div class="gameover-buttons">
+                    <button class="go-btn primary-go-btn" onclick="startGame()">
+                        <span>Play Again</span>
+                    </button>
+                    <button class="go-btn secondary-go-btn" onclick="goHome()">
+                        <span>Home</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="colormemory.js"></script>
+</body>
+</html>

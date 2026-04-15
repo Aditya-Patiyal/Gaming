@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess — Player vs Player</title>
+    <meta name="description" content="A beautifully crafted player vs player chess game with full rules, animations, and a premium dark UI.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="chess.css">
+</head>
+<body>
+    <!-- Landing / Start Screen -->
+    <div id="start-screen" class="screen active">
+        <div class="start-bg-glow"></div>
+        <div class="start-content">
+            <div class="logo-icon">♚</div>
+            <h1 class="start-title">Chess</h1>
+            <p class="start-subtitle">Player vs Player</p>
+            <div class="player-inputs">
+                <div class="player-input-group">
+                    <label for="player1-name">
+                        <span class="piece-label">♔</span> White
+                    </label>
+                    <input type="text" id="player1-name" placeholder="Player 1" maxlength="16" autocomplete="off">
+                </div>
+                <div class="vs-divider">VS</div>
+                <div class="player-input-group">
+                    <label for="player2-name">
+                        <span class="piece-label dark-piece">♚</span> Black
+                    </label>
+                    <input type="text" id="player2-name" placeholder="Player 2" maxlength="16" autocomplete="off">
+                </div>
+            </div>
+            <button id="start-btn" class="btn-primary" onclick="startGame()">
+                <span>Start Match</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="game-screen" class="screen">
+        <header class="game-header">
+            <div class="header-left">
+                <button id="back-btn" class="icon-btn" onclick="goBack()" title="Back to menu">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                </button>
+                <h2 class="header-title">Chess</h2>
+            </div>
+            <div class="header-right">
+                <button id="takeback-btn" class="icon-btn" onclick="takeBack()" title="Take back move">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                </button>
+                <button id="flip-btn" class="icon-btn" onclick="flipBoard()" title="Flip board">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                </button>
+                <button id="resign-btn" class="icon-btn icon-btn-danger" onclick="resignGame()" title="Resign">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="game-layout">
+            <!-- Player 2 (Black — top) -->
+            <div class="player-bar player-bar-top" id="player-bar-black">
+                <div class="player-info">
+                    <div class="player-avatar dark-avatar">♚</div>
+                    <div class="player-details">
+                        <span class="player-name" id="display-p2">Player 2</span>
+                        <div class="captured-pieces" id="captured-by-black"></div>
+                    </div>
+                </div>
+                <div class="player-timer" id="timer-black">
+                    <span class="timer-value" id="timer-black-value">10:00</span>
+                </div>
+            </div>
+
+            <!-- Chessboard -->
+            <div class="board-wrapper">
+                <div class="board-coordinates board-coords-files" id="coords-files"></div>
+                <div class="board-coordinates board-coords-ranks" id="coords-ranks"></div>
+                <div class="chessboard" id="chessboard"></div>
+            </div>
+
+            <!-- Player 1 (White — bottom) -->
+            <div class="player-bar player-bar-bottom" id="player-bar-white">
+                <div class="player-info">
+                    <div class="player-avatar light-avatar">♔</div>
+                    <div class="player-details">
+                        <span class="player-name" id="display-p1">Player 1</span>
+                        <div class="captured-pieces" id="captured-by-white"></div>
+                    </div>
+                </div>
+                <div class="player-timer" id="timer-white">
+                    <span class="timer-value" id="timer-white-value">10:00</span>
+                </div>
+            </div>
+        </main>
+
+        <!-- Move History Sidebar -->
+        <aside class="move-history-panel" id="move-history-panel">
+            <div class="panel-header">
+                <h3>Moves</h3>
+                <span class="move-count" id="move-count">0</span>
+            </div>
+            <div class="move-list" id="move-list"></div>
+        </aside>
+
+        <!-- Status Bar -->
+        <div class="game-status-bar" id="game-status-bar">
+            <span id="status-text">White to move</span>
+        </div>
+    </div>
+
+    <!-- Promotion Modal -->
+    <div class="modal-overlay" id="promotion-modal">
+        <div class="modal-content promotion-modal-content">
+            <h3>Promote Pawn</h3>
+            <div class="promotion-choices" id="promotion-choices"></div>
+        </div>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div class="modal-overlay" id="gameover-modal">
+        <div class="modal-content gameover-modal-content">
+            <div class="gameover-icon" id="gameover-icon">♔</div>
+            <h2 id="gameover-title">Checkmate!</h2>
+            <p id="gameover-subtitle">White wins</p>
+            <div class="gameover-actions">
+                <button class="btn-primary" onclick="resetGame()">
+                    <span>Play Again</span>
+                </button>
+                <button class="btn-secondary" onclick="goBack()">
+                    <span>Main Menu</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="chess.js"></script>
+</body>
+</html>
