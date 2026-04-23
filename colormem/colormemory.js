@@ -338,8 +338,7 @@ function quitGame() {
 }
 
 function goHome() {
-    showScreen(startScreen);
-    updateDisplays();
+    window.location.href = '../index.html';
 }
 
 // --- Utility ---

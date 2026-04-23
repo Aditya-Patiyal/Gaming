@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Hub — Play Your Favorite Games</title>
+    <meta name="description" content="A collection of beautifully crafted games - Chess, Color Memory, and Tic Tac Toe">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="background-effects">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <div class="container">
+        <header class="hero">
+            <div class="hero-badge">
+                <span class="badge-icon">🎮</span>
+                <span class="badge-text">Game Hub</span>
+            </div>
+            <h1 class="hero-title">
+                Choose Your <span class="gradient-text">Adventure</span>
+            </h1>
+            <p class="hero-subtitle">
+                Three beautifully crafted games, endless entertainment
+            </p>
+        </header>
+
+        <main class="games-grid">
+            <!-- Chess Card -->
+            <div class="game-card chess-card" onclick="playGame('chess')">
+                <div class="card-glow"></div>
+                <div class="card-header">
+                    <div class="game-icon chess-icon">♚</div>
+                    <div class="game-badge">Strategy</div>
+                </div>
+                <div class="card-content">
+                    <h2 class="game-title">Chess</h2>
+                    <p class="game-description">
+                        Classic player vs player chess with full rules, move history, and elegant dark UI
+                    </p>
+                    <div class="game-features">
+                        <span class="feature-tag">♔ Full Rules</span>
+                        <span class="feature-tag">⏱️ Timers</span>
+                        <span class="feature-tag">📜 Move History</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="play-btn">
+                        <span>Play Now</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Color Memory Card -->
+            <div class="game-card memory-card" onclick="playGame('colormem')">
+                <div class="card-glow"></div>
+                <div class="card-header">
+                    <div class="game-icon memory-icon">
+                        <span class="color-dot" style="background: #FF6B6B;"></span>
+                        <span class="color-dot" style="background: #4ECDC4;"></span>
+                        <span class="color-dot" style="background: #FFE66D;"></span>
+                        <span class="color-dot" style="background: #A78BFA;"></span>
+                    </div>
+                    <div class="game-badge">Memory</div>
+                </div>
+                <div class="card-content">
+                    <h2 class="game-title">Color Memory</h2>
+                    <p class="game-description">
+                        Simon Says style memory game to test your brain with vibrant colors and smooth animations
+                    </p>
+                    <div class="game-features">
+                        <span class="feature-tag">🧠 Brain Training</span>
+                        <span class="feature-tag">⚡ 3 Speeds</span>
+                        <span class="feature-tag">🏆 High Scores</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="play-btn">
+                        <span>Play Now</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tic Tac Toe Card -->
+            <div class="game-card tictactoe-card" onclick="playGame('tictactoe')">
+                <div class="card-glow"></div>
+                <div class="card-header">
+                    <div class="game-icon tictactoe-icon">
+                        <span class="ttt-x">✕</span>
+                        <span class="ttt-o">○</span>
+                    </div>
+                    <div class="game-badge">Classic</div>
+                </div>
+                <div class="card-content">
+                    <h2 class="game-title">Tic Tac Toe</h2>
+                    <p class="game-description">
+                        Neon-styled Tic Tac Toe with player vs player or AI opponent modes
+                    </p>
+                    <div class="game-features">
+                        <span class="feature-tag">👥 PvP Mode</span>
+                        <span class="feature-tag">🤖 AI Opponent</span>
+                        <span class="feature-tag">💫 Neon Effects</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="play-btn">
+                        <span>Play Now</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p class="footer-text">
+                Made with <span class="heart">❤️</span> for game lovers
+            </p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

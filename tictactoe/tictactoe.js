@@ -136,14 +136,7 @@ function restartGame() {
 }
 
 function goToMenu() {
-    gameScreen.classList.remove('active');
-    modeScreen.classList.add('active');
-    resultOverlay.classList.add('hidden');
-    difficultySelector.classList.add('hidden');
-    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('selected'));
-    document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('selected'));
-    scores = { X: 0, O: 0, draw: 0 };
-    updateScoreDisplay();
+    window.location.href = '../index.html';
 }
 
 // --- Cell Interaction ---

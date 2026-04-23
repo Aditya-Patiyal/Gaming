@@ -1082,9 +1082,7 @@ function startGame() {
 function goBack() {
     stopTimer();
     gameOver = true;
-    document.getElementById('game-screen').classList.remove('active');
-    document.getElementById('gameover-modal').classList.remove('visible');
-    document.getElementById('start-screen').classList.add('active');
+    window.location.href = '../index.html';
 }
 
 function resetGame() {
